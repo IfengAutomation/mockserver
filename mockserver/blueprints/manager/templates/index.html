@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Active</th>
+        <th>Default</th>
+        <th>URL</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for interface in interface_list %}
+        <tr>
+        <td>{{ interface.id }}</td>
+        <td>{{ interface.name }}</td>
+        <td>{{ interface.active }}</td>
+        <td>{{ interface.default }}</td>
+        <td>{{ interface.url }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
