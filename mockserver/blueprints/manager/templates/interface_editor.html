@@ -2,11 +2,19 @@
 {% set path='login' %}
 {% block content %}
     <form method="POST">
-        <h2>Please sign in</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        {{form.email(class_='form-control', placeholder='Email address', required=True, autofocus=True)}}
-        <label for="inputPassword" class="sr-only">Password</label>
-        {{form.password(class_='form-control', placeholder='Password', required=True)}}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <h3>Interface editor</h3>
+        {{form.id}}
+        {{form.name(class_='form-control', placeholder='InterfaceName', required=True, autofocus=True)}}
+        {{form.url(class_='form-control', placeholder='InterfaceUrl', required=True, autofocus=True)}}
+        {{form.url(class_='form-control', placeholder='Mock Path Prefix', autofocus=True)}}
+        <div class="checkbox">
+            <label>{{form.default}}{{form.default.label}}</label>
+            <br>
+            <label>{{form.active}}{{form.active.label}}</label>
+        </div>
+        {{form.body(class_='form-control', placeholder='Json response', rows=30, required=True, autofocus=True)}}
+        <div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+        </div>
     </form>
 {% endblock %}

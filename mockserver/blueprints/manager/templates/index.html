@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<table class="table table-striped">
+<table class="table table-bordered table-condensed table-striped table-hover">
     <thead>
     <tr>
         <th>Id</th>
@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         {% for interface in interface_list %}
-        <tr>
+        <tr style="cursor:pointer" onclick="toEditor('{{url_for('manager.interface_editor', interface_id=interface.id)}}')">
         <td>{{ interface.id }}</td>
         <td>{{ interface.name }}</td>
         <td>{{ interface.active }}</td>
@@ -22,4 +22,15 @@
         {% endfor %}
     </tbody>
 </table>
+
+<div style="position: fixed; bottom: 20px; right: 20px">
+    <a href="{{url_for('manager.interface_editor')}}" class="btn btn-primary">NEW Interface</a>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    function toEditor(url) {
+        location.href = url;
+    }
+</script>
 {% endblock %}
