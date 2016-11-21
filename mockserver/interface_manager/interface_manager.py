@@ -47,7 +47,18 @@ def _is_args_match(expect, actual):
     return True
 
 
-def find_interface(url):
+def find_interface(name=None, url=None):
+    if name:
+        return _find_interface_by_name(name)
+    if url:
+        return _find_interface_by_url(url)
+
+
+def _find_interface_by_name(name):
+    return Interface.query.filter_by(name=name).first()
+
+
+def _find_interface_by_url(url):
     res = urlparse(url)
     args = parse_qs(res.query)
     all_interfaces = Interface.query.filter_by(active=True).all()
@@ -57,5 +68,3 @@ def find_interface(url):
         if res.path == filter_path:
             if _is_args_match(parse_qs(interface.query_string), args):
                 return interface
-
-

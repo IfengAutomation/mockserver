@@ -4,6 +4,7 @@ import os
 from mockserver.blueprints import api
 from mockserver.blueprints import manager
 from mockserver.blueprints import mock
+from mockserver.blueprints import proxy
 from mockserver.database import database
 
 package_root = os.path.abspath(os.path.join(__file__, os.pardir))
@@ -14,6 +15,7 @@ app = Flask('Mock')
 app.register_blueprint(mock.bp)
 app.register_blueprint(api.bp)
 app.register_blueprint(manager.bp)
+app.register_blueprint(proxy.bp)
 
 
 @app.route('/')
