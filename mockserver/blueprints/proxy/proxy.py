@@ -17,7 +17,7 @@ def proxy_handler(path=None):
     parse_res = urlparse(real_url)
     response = requests.get(real_url)
 
-    interface = Interface(parse_res.path, real_url, body=response.text.encode(), mock_prefix=parse_res.hostname)
+    interface = Interface(parse_res.path, real_url, body=response.text.encode(), mock_prefix='/'+parse_res.hostname)
     if interface.name is '':
         interface.name = 'none_path'
 
