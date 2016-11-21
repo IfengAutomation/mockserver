@@ -11,6 +11,7 @@ class InterfaceEditor(Form):
     default = BooleanField('Default')
     active = BooleanField('Active')
     body = TextAreaField('Response Body')
+    query_string = StringField('QueryString')
 
     def update_from_db_instance(self, interface):
         self.id.data = interface.id
@@ -20,6 +21,7 @@ class InterfaceEditor(Form):
         self.default.data = interface.default
         self.active.data = interface.active
         self.body.data = interface.body.decode()
+        self.query_string.data = interface.query_string
 
     def update_to_db_instance(self, interface):
         interface.id = self.id.data
@@ -29,6 +31,7 @@ class InterfaceEditor(Form):
         interface.default = self.default.data
         interface.mock_prefix = self.mock_prefix.data
         interface.body = self.body.data.encode()
+        interface.query_string = self.query_string.data
         return interface
 
     def create_new_instance(self):
@@ -37,5 +40,6 @@ class InterfaceEditor(Form):
                          self.active.data,
                          self.default.data,
                          self.body.data.encode(),
-                         self.mock_prefix.data)
+                         self.mock_prefix.data,
+                         self.query_string.data)
 

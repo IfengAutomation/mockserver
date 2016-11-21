@@ -1,40 +1,6 @@
 from mockserver.database.database import Interface
 from mockserver.database.database import db
-
-
-class RequestFilter:
-    def __init__(self):
-        self.host = None
-        self.path = None
-        self.args = None
-
-    def execute(self, record):
-        return self._host_compare(record) and self._path_compare(record) and self._args_compare(record)
-
-    def _host_compare(self, record):
-        if self.host:
-            return record.host == self.host
-        else:
-            return True
-
-    def _path_compare(self, record):
-        if self.path:
-            return record.path == self.path
-        else:
-            return True
-
-    def _args_compare(self, record):
-        if self.args:
-            for arg_name in self.args:
-                expect_value = self.args[arg_name]
-                if arg_name in record.args:
-                    if record.args[arg_name] != expect_value:
-                        return False
-                else:
-                    return False
-            return True
-        else:
-            return True
+from urllib.parse import parse_qs, urlparse
 
 
 def get_interface_list():
@@ -52,3 +18,44 @@ def update_interface(interface):
 def add_interface(interface):
     db.session.add(interface)
     db.session.commit()
+
+
+def change_interface_active(name, status):
+    interface = Interface.query.filter_by(name=name).first()
+    if not interface:
+        return False
+    if interface.active is not status:
+        interface.active = not interface.active
+        db.session.commit()
+    return True
+
+
+def reset():
+    all_record = Interface.query.all()
+    for interface in all_record:
+        interface.active = interface.default
+    db.session.commit()
+
+
+def _is_args_match(expect, actual):
+    for expect_key in expect:
+        if expect_key not in actual:
+            return False
+        else:
+            if expect[expect_key] != actual[expect_key]:
+                return False
+    return True
+
+
+def find_interface(url):
+    res = urlparse(url)
+    args = parse_qs(res.query)
+    all_interfaces = Interface.query.filter_by(active=True).all()
+    for interface in all_interfaces:
+        filter_res = urlparse(interface.url)
+        filter_path = '/mock'+interface.mock_prefix+filter_res.path
+        if res.path == filter_path:
+            if _is_args_match(parse_qs(interface.query_string), args):
+                return interface
+
+

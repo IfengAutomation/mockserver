@@ -17,7 +17,7 @@
         <td>{{ interface.name }}</td>
         <td>{{ interface.active }}</td>
         <td>{{ interface.default }}</td>
-        <td>{{ interface.url }}</td>
+        <td>{% if interface.url|length >45 %}{{interface.url[:40]}}...{% else %}{{interface.url}}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>

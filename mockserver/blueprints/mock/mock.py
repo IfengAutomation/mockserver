@@ -1,4 +1,5 @@
-from flask import Blueprint
+from flask import Blueprint, request
+from mockserver.interface_manager import interface_manager
 
 
 mock = Blueprint('mock', __name__, url_prefix='/mock')
@@ -7,4 +8,7 @@ mock = Blueprint('mock', __name__, url_prefix='/mock')
 @mock.route('/')
 @mock.route('/<path:path>')
 def mock_handler(path=None):
-    return 'MOCK'
+    interface = interface_manager.find_interface(request.url)
+    if not interface:
+        return 'Interface not found', 404
+    return interface.body.decode()

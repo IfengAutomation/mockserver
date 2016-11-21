@@ -6,7 +6,8 @@
         {{form.id}}
         {{form.name(class_='form-control', placeholder='InterfaceName', required=True, autofocus=True)}}
         {{form.url(class_='form-control', placeholder='InterfaceUrl', required=True, autofocus=True)}}
-        {{form.url(class_='form-control', placeholder='Mock Path Prefix', autofocus=True)}}
+        {{form.mock_prefix(class_='form-control', placeholder='Mock Path Prefix', autofocus=True)}}
+        {{form.query_string(class_='form-control', placeholder='Query string', autofocus=True)}}
         <div class="checkbox">
             <label>{{form.default}}{{form.default.label}}</label>
             <br>
