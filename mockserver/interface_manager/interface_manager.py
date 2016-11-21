@@ -68,3 +68,9 @@ def _find_interface_by_url(url):
         if res.path == filter_path:
             if _is_args_match(parse_qs(interface.query_string), args):
                 return interface
+
+
+def delete_interface(id=None):
+    interface = Interface.query.filter_by(id=id).first()
+    db.session.delete(interface)
+    db.session.commit()

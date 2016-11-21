@@ -34,3 +34,9 @@ def interface_editor(interface_id=None):
         interface = interface_manager.get_interface(interface_id)
         form.update_from_db_instance(interface)
     return render_template('interface_editor.html', form=form)
+
+
+@manager.route('/delete/<int:id>')
+def delete_interface(id=None):
+    interface_manager.delete_interface(id)
+    return redirect('manager.root')

@@ -8,6 +8,7 @@
         <th>Active</th>
         <th>Default</th>
         <th>URL</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -18,6 +19,7 @@
         <td>{{ interface.active }}</td>
         <td>{{ interface.default }}</td>
         <td>{% if interface.url|length >45 %}{{interface.url[:40]}}...{% else %}{{interface.url}}{% endif %}</td>
+        <td><a class="btn btn-default" onclick="test(event, '{{url_for('manager.delete_interface', id=interface.id)}}')">delete</a></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -31,6 +33,14 @@
 <script type="text/javascript">
     function toEditor(url) {
         location.href = url;
+    }
+    function test(evt, url) {
+        $.get(url);
+        location.reload();
+        if (window.event) //for IE
+            window.event.cancelBubble = true;
+        else //for Firefox
+            evt.stopPropagation();
     }
 </script>
 {% endblock %}
