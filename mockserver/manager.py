@@ -36,7 +36,7 @@ def dump(bak_file):
 @manager.command
 def load(bak_file):
     print('Load %s start' % bak_file)
-    f = codecs.open(bak_file, 'r')
+    f = codecs.open(bak_file, 'r', 'utf-8')
     all_data = json.loads(f.read())
     f.close()
     for data in all_data:
@@ -45,3 +45,4 @@ def load(bak_file):
             interface.name = '[Dup.]' + interface.name
         database.db.session.add(interface)
     database.db.session.commit()
+    print('Load completed')
