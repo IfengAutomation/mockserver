@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 import json
 
-
 db = SQLAlchemy()
 
 
@@ -29,4 +28,19 @@ class Interface(db.Model):
     def get_json_body(self):
         return json.dumps(json.loads(self.body.decode()), ensure_ascii=False, indent=4)
 
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'url': self.url,
+            'mock_prefix': self.mock_prefix,
+            'body': self.body.decode(),
+            'query_string': self.query_string
+        }
 
+    @classmethod
+    def from_dict(cls, interface_dict):
+        return cls(interface_dict['name'],
+                   interface_dict['url'],
+                   body=interface_dict['body'].encode(),
+                   mock_prefix=interface_dict['mock_prefix'],
+                   query_string=interface_dict['query_string'])
