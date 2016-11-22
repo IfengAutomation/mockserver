@@ -20,7 +20,7 @@ class InterfaceEditor(Form):
         self.mock_prefix.data = interface.mock_prefix
         self.default.data = interface.default
         self.active.data = interface.active
-        self.body.data = interface.body.decode()
+        self.body.data = interface.get_json_body()
         self.query_string.data = interface.query_string
 
     def update_to_db_instance(self, interface):

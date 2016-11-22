@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+import json
+
 
 db = SQLAlchemy()
 
@@ -23,5 +25,8 @@ class Interface(db.Model):
         if mock_prefix:
             self.mock_prefix = mock_prefix
         self.query_string = query_string
+
+    def get_json_body(self):
+        return json.dumps(json.loads(self.body.decode()), ensure_ascii=False, indent=4)
 
 

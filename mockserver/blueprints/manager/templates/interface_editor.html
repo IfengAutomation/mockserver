@@ -13,9 +13,19 @@
             <br>
             <label>{{form.active}}{{form.active.label}}</label>
         </div>
-        {{form.body(class_='form-control', placeholder='Json response', rows=30, required=True, autofocus=True)}}
+        {{form.body(id='code-area', class_='form-control', placeholder='Json response', rows=30, required=True, autofocus=True)}}
         <div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
         </div>
     </form>
+{% endblock %}
+{% block scripts %}
+    <script src="{{url_for('.static', filename='jquery/jquery-1.8.3.min.js')}}"></script>
+    <script src="{{url_for('.static', filename='ace/ace.js')}}"></script>
+    <script src="{{url_for('.static', filename='ace/theme-github.js')}}"></script>
+    <script src="{{url_for('.static', filename='ace/mode-json.js')}}"></script>
+    <script src="{{url_for('.static', filename='jquery-ace.min.js')}}"></script>
+    <script>
+    $('#code-area').ace({ theme: 'github', lang: 'json' })
+    </script>
 {% endblock %}
