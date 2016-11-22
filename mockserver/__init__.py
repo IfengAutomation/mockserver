@@ -6,6 +6,7 @@ from mockserver.blueprints import manager
 from mockserver.blueprints import mock
 from mockserver.blueprints import proxy
 from mockserver.database import database
+from mockserver.blueprints import media
 
 package_root = os.path.abspath(os.path.join(__file__, os.pardir))
 root = os.path.abspath(os.path.join(package_root, os.pardir))
@@ -16,6 +17,7 @@ app.register_blueprint(mock.bp)
 app.register_blueprint(api.bp)
 app.register_blueprint(manager.bp)
 app.register_blueprint(proxy.bp)
+app.register_blueprint(media.bp)
 
 
 @app.route('/')
