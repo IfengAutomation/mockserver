@@ -1,5 +1,6 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from mockserver.interface_manager import interface_manager
+from mockserver import recorder
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -25,4 +26,15 @@ def active(name, status):
 @api.route('/reset')
 def reset():
     interface_manager.reset()
+    return 'OK'
+
+
+@api.route('/request_list')
+def get_request_list():
+    return jsonify(recorder.get())
+
+
+@api.route('/clear_request_list')
+def clear_request_list():
+    recorder.clear()
     return 'OK'
