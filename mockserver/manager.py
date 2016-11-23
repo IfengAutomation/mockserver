@@ -17,16 +17,24 @@ def init():
 
 
 @manager.command
-def dump(bak_file):
+def dump(bak_file, id=None):
     print('Dump %s start' % bak_file)
-    all_interfaces = database.Interface.query.all()
-    if len(all_interfaces) == 0:
-        print('Not found any data to dump.')
-        return
-
     all_data = []
-    for interface in all_interfaces:
-        all_data.append(interface.to_dict())
+    if id:
+        interface = database.Interface.query.filter_by(id=id).first()
+        if interface:
+            all_data.append(interface.to_dict())
+        else:
+            print('Not found any data to dump.')
+            return
+    else:
+        all_interfaces = database.Interface.query.all()
+        if len(all_interfaces) == 0:
+            print('Not found any data to dump.')
+            return
+
+        for interface in all_interfaces:
+            all_data.append(interface.to_dict())
     f = codecs.open(bak_file, 'w', 'utf-8')
     f.write(json.dumps(all_data, ensure_ascii=False, indent=4))
     f.close()
