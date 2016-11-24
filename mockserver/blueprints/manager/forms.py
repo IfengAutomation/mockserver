@@ -1,5 +1,18 @@
-from wtforms import Form, StringField, TextAreaField, HiddenField, BooleanField
+from wtforms import Form, StringField, TextAreaField, HiddenField, BooleanField, ValidationError
 from mockserver.database.database import Interface
+import json
+
+
+class JsonValidator:
+
+    def __init__(self, message=None):
+        self.message = message
+
+    def __call__(self, form, field):
+        try:
+            json.loads(field.data)
+        except Exception:
+            raise ValidationError('Field need json data')
 
 
 class InterfaceEditor(Form):
@@ -10,7 +23,7 @@ class InterfaceEditor(Form):
     mock_prefix = StringField('Mock Prefix')
     default = BooleanField('Default')
     active = BooleanField('Active')
-    body = TextAreaField('Response Body')
+    body = TextAreaField('Response Body', [JsonValidator()])
     query_string = StringField('QueryString')
 
     def update_from_db_instance(self, interface):
