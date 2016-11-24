@@ -21,12 +21,19 @@ def dump(bak_file, id=None):
     print('Dump %s start' % bak_file)
     all_data = []
     if id:
-        interface = database.Interface.query.filter_by(id=id).first()
-        if interface:
-            all_data.append(interface.to_dict())
+        if id.find(',') == -1:
+            interface = database.Interface.query.filter_by(id=id).first()
+            if interface:
+                all_data.append(interface.to_dict())
+            else:
+                print('Not found any data to dump.')
+                return
         else:
-            print('Not found any data to dump.')
-            return
+            all_ids = id.split(',')
+            for _id in all_ids:
+                interface = database.Interface.query.filter_by(id=_id).first()
+                if interface:
+                    all_data.append(interface.to_dict())
     else:
         all_interfaces = database.Interface.query.all()
         if len(all_interfaces) == 0:
