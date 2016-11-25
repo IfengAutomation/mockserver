@@ -32,6 +32,8 @@ class Interface(db.Model):
         return {
             'name': self.name,
             'url': self.url,
+            'default': self.default,
+            'active': self.active,
             'mock_prefix': self.mock_prefix,
             'body': self.body.decode(),
             'query_string': self.query_string
@@ -41,6 +43,8 @@ class Interface(db.Model):
     def from_dict(cls, interface_dict):
         return cls(interface_dict['name'],
                    interface_dict['url'],
+                   default=interface_dict['default'],
+                   active=interface_dict['active'],
                    body=interface_dict['body'].encode(),
                    mock_prefix=interface_dict['mock_prefix'],
                    query_string=interface_dict['query_string'])
