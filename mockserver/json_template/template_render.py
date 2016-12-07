@@ -7,7 +7,21 @@ regex = re.compile(template_pattern)
 
 
 def _now():
-    return datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
+    return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+
+def _today():
+    return datetime.datetime.now().strftime('%Y-%m-%d')
+
+
+def _tomorrow():
+    tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+    return tomorrow.strftime('%Y-%m-%d')
+
+
+def _day_after_tomorrow():
+    day_after_tomorrow = datetime.date.today() + datetime.timedelta(days=2)
+    return day_after_tomorrow.strftime('%Y-%m-%d')
 
 
 def _server_host():
@@ -19,6 +33,9 @@ def _server_host():
 
 inner_func = {
     'datetime.now': _now,
+    'datetime.today': _today,
+    'datetime.tomorrow': _tomorrow,
+    'datetime.day_after_tomorrow': _day_after_tomorrow,
     'server_host': _server_host
 }
 
@@ -37,6 +54,3 @@ def _replace(line, temp_func):
         return line.replace(temp_func, res)
     else:
         return line.replace(temp_func, '')
-
-
-
